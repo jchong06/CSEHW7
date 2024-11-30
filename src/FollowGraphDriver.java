@@ -79,10 +79,13 @@ public class FollowGraphDriver {
                 System.out.print("Please enter the desired destination: ");
                 String t = input.nextLine();
                 String p = graph.shortestPath(f, t);
-                System.out.println(p);
                 if (!p.equals("No path found.")){
+                    System.out.println("The shortest path is: " + p);
                     int length = p.split("->", -1).length - 1 + 1;
                     System.out.println("The number of users in this path is: " + length);
+                }
+                else{
+                    System.out.println(p);
                 }
             }
             if (option.equals("L")){
