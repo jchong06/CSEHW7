@@ -228,52 +228,53 @@ public class FollowGraph implements Serializable {
         currentPath.remove(currentPath.size() - 1);
     }
 
+    private void findLoopsDFS(int start, int current, List<Integer> path, List<String> loops, Set<String> uniqueLoops) {
+        path.add(current);
+        for (int neighbor = 0; neighbor < users.size(); neighbor++) {
+            if (connections[current][neighbor]) {
+                if (neighbor == start && path.size() > 1) {
+                    List<Integer> loopPath = new ArrayList<>(path);
+                    loopPath.add(start);
+                    String loop = buildLoopString(loopPath);
+                    String normalizedLoop = normalizeLoop(loop);
+
+                    if (!uniqueLoops.contains(normalizedLoop)) {
+                        loops.add(loop);
+                        uniqueLoops.add(normalizedLoop);
+                    }
+                } else if (!path.contains(neighbor) || neighbor == start) {
+                    findLoopsDFS(start, neighbor, path, loops, uniqueLoops);
+                }
+            }
+        }
+
+        path.remove(path.size() - 1);
+    }
+
     public List<String> findAllLoops() {
         List<String> loops = new ArrayList<>();
         Set<String> uniqueLoops = new HashSet<>();
 
         for (int i = 0; i < users.size(); i++) {
-            findLoopsDFS(i, i, new HashSet<>(), new ArrayList<>(), loops, uniqueLoops);
+            findLoopsDFS(i, i, new ArrayList<>(), loops, uniqueLoops);
         }
 
         return loops;
     }
 
-    private void findLoopsDFS(int start, int current, Set<Integer> visited, List<Integer> path, List<String> loops, Set<String> uniqueLoops) {
-        visited.add(current);
-        path.add(current);
 
-        for (int neighbor = 0; neighbor < users.size(); neighbor++) {
-            if (connections[current][neighbor]) {
-                if (neighbor == start && path.size() > 2) {
-                    List<Integer> loopPath = new ArrayList<>(path);
-                    loopPath.add(start);
-                    String loop = buildLoopString(loopPath);
-                    if (uniqueLoops.add(normalizeLoop(loop))) {
-                        loops.add(loop);
-                    }
-                } else if (!visited.contains(neighbor)) {
-                    findLoopsDFS(start, neighbor, visited, path, loops, uniqueLoops);
-                }
-            }
-        }
-
-        visited.remove(current);
-        path.remove(path.size() - 1);
-    }
 
     private String buildLoopString(List<Integer> path) {
         List<String> nodeNames = new ArrayList<>();
         for (int index : path) {
             nodeNames.add(users.get(index).getUserName());
         }
-
         return String.join(" -> ", nodeNames);
     }
 
     private String normalizeLoop(String loop) {
         String[] parts = loop.split(" -> ");
-        int n = parts.length;
+        int n = parts.length - 1;
         int minIndex = 0;
 
         for (int i = 1; i < n; i++) {
@@ -286,10 +287,10 @@ public class FollowGraph implements Serializable {
         for (int i = 0; i < n; i++) {
             normalized.add(parts[(minIndex + i) % n]);
         }
+        normalized.add(parts[minIndex]);
 
         return String.join(" -> ", normalized);
     }
-
 
 
     public void loadAllUsers(String filename) {
