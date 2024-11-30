@@ -144,7 +144,7 @@ public class FollowGraph implements Serializable {
 
     public void printAllUsers(Comparator<User> comp) {
         users.sort(comp);
-        String header = "User Name              " + "Number of Followers     " + "Number Following        ";
+        String header = "User Name              " + "Number of Followers     " + "Number of Following";
         System.out.println(header);
         for (User user : users) {
             String userName = user.getUserName();
