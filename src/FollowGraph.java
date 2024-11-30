@@ -359,19 +359,20 @@ public class FollowGraph implements Serializable {
         }
 
         public int compare(User u1, User u2) {
-            int followersComparison = Integer.compare(
-                    graph.countFollowers(u2.getIndexPos()),
-                    graph.countFollowers(u1.getIndexPos())
-            );
+            int followerCount1 = graph.countFollowers(u1.getIndexPos());
+            int followerCount2 = graph.countFollowers(u2.getIndexPos());
 
-            return (followersComparison != 0)
-                    ? followersComparison
-                    : Integer.compare(
-                    graph.countFollowing(u1.getIndexPos()),
-                    graph.countFollowing(u2.getIndexPos())
-            );
+            if (followerCount1 != followerCount2) {
+                return Integer.compare(followerCount2, followerCount1);
+            }
+
+
+            int followingCount1 = graph.countFollowing(u1.getIndexPos());
+            int followingCount2 = graph.countFollowing(u2.getIndexPos());
+            return Integer.compare(followingCount1, followingCount2);
         }
     }
+
 
     public static class FollowingComparator implements Comparator<User> {
         private final FollowGraph graph;
