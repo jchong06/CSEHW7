@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FollowGraphDriver {
     public static void main(String[] args) throws FileNotFoundException {
-        FollowerGraph graph = new FollowerGraph();
+        FollowGraph graph = new FollowGraph();
         Scanner input = new Scanner(System.in);
         String menu = "(U) Add User\n" +
                 "(C) Add Connection\n" +
@@ -45,18 +45,18 @@ public class FollowGraphDriver {
                 System.out.print("Enter a selection: ");
                 String comp = input.nextLine().toUpperCase();
                 if (comp.equals("SA")){
-                    System.out.println();
-                    graph.printAllUsers(new FollowerGraph.NameComparator());
+                    System.out.println("\nUsers:");
+                    graph.printAllUsers(new FollowGraph.NameComparator());
                     System.out.println();
                 }
                 else if (comp.equals("SB")){
-                    System.out.println();
-                    graph.printAllUsers(new FollowerGraph.FollowersComparator(graph));
+                    System.out.println("\nUsers:");
+                    graph.printAllUsers(new FollowGraph.FollowersComparator(graph));
                     System.out.println();
                 }
                 else if (comp.equals("SC")){
-                    System.out.println();
-                    graph.printAllUsers(new FollowerGraph.FollowingComparator(graph));
+                    System.out.println("\nUsers:");
+                    graph.printAllUsers(new FollowGraph.FollowingComparator(graph));
                     System.out.println();
                 }
             }
@@ -124,6 +124,6 @@ public class FollowGraphDriver {
 
         graph.loadAllUsers("users.txt");
         graph.loadAllConnections("connections.txt");
-        graph.printAllUsers(new FollowerGraph.NameComparator());
+        graph.printAllUsers(new FollowGraph.NameComparator());
     }
 }

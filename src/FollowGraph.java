@@ -1,13 +1,12 @@
 import java.io.*;
-import java.lang.foreign.StructLayout;
 import java.util.*;
 
-public class FollowerGraph {
+public class FollowGraph {
     private ArrayList<User> users;
     public static final int MAX_USERS = 100;
     private boolean[][] connections;
 
-    public FollowerGraph() {
+    public FollowGraph() {
         users = new ArrayList<>();
         connections = new boolean[MAX_USERS][MAX_USERS];
     }
@@ -81,9 +80,13 @@ public class FollowerGraph {
         User from = getUserByName(userFrom);
         User to = getUserByName(userTo);
 
-        if (from == null || to == null) {
-            return "Invalid user(s)";
+        if (from == null) {
+            return "The vertex " + userFrom + " does not exist.";
         }
+        if (to == null) {
+            return "The vertex " + userTo + " does not exist.";
+        }
+
         List<String> shortestPath = new ArrayList<>();
         List<String> currentPath = new ArrayList<>();
         Set<Integer> visited = new HashSet<>();
@@ -100,8 +103,11 @@ public class FollowerGraph {
         User from = getUserByName(userFrom);
         User to = getUserByName(userTo);
 
-        if (from == null || to == null) {
-            return Collections.singletonList("Invalid user(s)");
+        if (from == null) {
+            return Collections.singletonList("The vertex " + userFrom + " does not exist.");
+        }
+        if (to == null) {
+            return Collections.singletonList("The vertex " + userTo + " does not exist.");
         }
 
         List<String> allPaths = new ArrayList<>();
@@ -111,6 +117,9 @@ public class FollowerGraph {
         findAllPaths(from.getIndexPos(), to.getIndexPos(), visited, currentPath, allPaths);
 
         Collections.sort(allPaths);
+        if (allPaths.isEmpty()) {
+            return Collections.singletonList("There is no path from vertex " + userFrom + " to vertex " + userTo + ".");
+        }
         return allPaths;
     }
 
@@ -315,9 +324,9 @@ public class FollowerGraph {
     }
 
     public static class FollowersComparator implements Comparator<User> {
-        private final FollowerGraph graph;
+        private final FollowGraph graph;
 
-        public FollowersComparator(FollowerGraph graph) {
+        public FollowersComparator(FollowGraph graph) {
             this.graph = graph;
         }
 
@@ -330,9 +339,9 @@ public class FollowerGraph {
     }
 
     public static class FollowingComparator implements Comparator<User> {
-        private final FollowerGraph graph;
+        private final FollowGraph graph;
 
-        public FollowingComparator(FollowerGraph graph) {
+        public FollowingComparator(FollowGraph graph) {
             this.graph = graph;
         }
 
