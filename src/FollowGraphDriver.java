@@ -78,7 +78,12 @@ public class FollowGraphDriver {
                 String f = input.nextLine();
                 System.out.print("Please enter the desired destination: ");
                 String t = input.nextLine();
-                System.out.println(graph.shortestPath(f, t));
+                String p = graph.shortestPath(f, t);
+                System.out.println(p);
+                if (!p.equals("No path found.")){
+                    int length = p.split("->", -1).length - 1 + 1;
+                    System.out.println("The number of users in this path is: " + length);
+                }
             }
             if (option.equals("L")){
                 List<String> loops = graph.findAllLoops();
