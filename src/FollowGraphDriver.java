@@ -113,6 +113,7 @@ public class FollowGraphDriver {
                 while (graph.getUserByName(u) == null) {
                     if (u.isEmpty()) {
                         System.out.println("You can not leave this field empty. ");
+                        System.out.println("There is no user with this name, Please choose a valid user! ");
                         System.out.print("Please enter the user to remove: ");
                         u = input.nextLine();
                     }
@@ -130,6 +131,7 @@ public class FollowGraphDriver {
                 while (graph.getUserByName(f) == null) {
                     if (f.isEmpty()) {
                         System.out.println("You can not leave this field empty. ");
+                        System.out.println("There is no user with this name, Please choose a valid user! ");
                         System.out.print("Please enter the source of the connection to remove: ");
                         f = input.nextLine();
                     }
