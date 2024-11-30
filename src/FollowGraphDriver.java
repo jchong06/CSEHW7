@@ -121,9 +121,5 @@ public class FollowGraphDriver {
             System.out.print("Enter a selection: ");
             option = input.nextLine().toUpperCase();
         }
-
-        graph.loadAllUsers("users.txt");
-        graph.loadAllConnections("connections.txt");
-        graph.printAllUsers(new FollowGraph.NameComparator());
     }
 }
