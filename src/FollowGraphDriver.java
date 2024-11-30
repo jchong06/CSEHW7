@@ -100,9 +100,11 @@ public class FollowGraphDriver {
                 String t = input.nextLine();
                 List<String> path = graph.allPaths(f, t);
                 Collections.sort(path);
-                System.out.println("There are a total of " + path.size() + " paths: ");
-                for (String p : path){
-                    System.out.println(p);
+                if (!path.isEmpty()) {
+                    System.out.println("There are a total of " + path.size() + " paths: ");
+                    for (String p : path) {
+                        System.out.println(p);
+                    }
                 }
             }
             if (option.equals("RU")){

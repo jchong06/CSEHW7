@@ -1,5 +1,7 @@
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class FollowGraph implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -100,48 +102,6 @@ public class FollowGraph implements Serializable {
         return String.join(" -> ", shortestPath);
     }
 
-    public List<String> allPaths(String userFrom, String userTo) {
-        User from = getUserByName(userFrom);
-        User to = getUserByName(userTo);
-
-        if (from == null) {
-            return Collections.singletonList("The vertex " + userFrom + " does not exist.");
-        }
-        if (to == null) {
-            return Collections.singletonList("The vertex " + userTo + " does not exist.");
-        }
-
-        List<String> allPaths = new ArrayList<>();
-        List<String> currentPath = new ArrayList<>();
-        Set<Integer> visited = new HashSet<>();
-
-        findAllPaths(from.getIndexPos(), to.getIndexPos(), visited, currentPath, allPaths);
-
-        Collections.sort(allPaths);
-        if (allPaths.isEmpty()) {
-            return Collections.singletonList("There is no path from vertex " + userFrom + " to vertex " + userTo + ".");
-        }
-        return allPaths;
-    }
-
-    private void findAllPaths(int current, int target, Set<Integer> visited, List<String> currentPath, List<String> allPaths) {
-        visited.add(current);
-        currentPath.add(users.get(current).getUserName());
-
-        if (current == target) {
-            allPaths.add(String.join(" -> ", currentPath));
-        } else {
-            for (int i = 0; i < users.size(); i++) {
-                if (connections[current][i] && !visited.contains(i)) {
-                    findAllPaths(i, target, visited, currentPath, allPaths);
-                }
-            }
-        }
-
-        visited.remove(current);
-        currentPath.remove(currentPath.size() - 1);
-    }
-
     public void printAllUsers(Comparator<User> comp) {
         users.sort(comp);
         String header = "User Name              " + "Number of Followers     " + "Number of Following";
@@ -226,6 +186,48 @@ public class FollowGraph implements Serializable {
         currentPath.remove(currentPath.size() - 1);
     }
 
+    public List<String> allPaths(String userFrom, String userTo) {
+        User from = getUserByName(userFrom);
+        User to = getUserByName(userTo);
+
+        if (from == null) {
+            return Collections.singletonList("The vertex " + userFrom + " does not exist.");
+        }
+        if (to == null) {
+            return Collections.singletonList("The vertex " + userTo + " does not exist.");
+        }
+
+        List<String> allPaths = new ArrayList<>();
+        List<String> currentPath = new ArrayList<>();
+
+        findAllPaths(from.getIndexPos(), to.getIndexPos(), new HashSet<>(), currentPath, allPaths);
+
+        if (allPaths.isEmpty()) {
+            return Collections.singletonList("No path exists between " + userFrom + " and " + userTo + ".");
+        }
+
+        Collections.sort(allPaths);
+        return allPaths;
+    }
+
+    private void findAllPaths(int current, int target, Set<Integer> visited, List<String> currentPath, List<String> allPaths) {
+        visited.add(current);
+        currentPath.add(users.get(current).getUserName());
+
+        if (current == target) {
+            allPaths.add(String.join(" -> ", currentPath));
+        } else {
+            for (int neighbor = 0; neighbor < users.size(); neighbor++) {
+                if (connections[current][neighbor] && !visited.contains(neighbor)) {
+                    findAllPaths(neighbor, target, visited, currentPath, allPaths);
+                }
+            }
+        }
+
+        visited.remove(current);
+        currentPath.remove(currentPath.size() - 1);
+    }
+
     public List<String> findAllLoops() {
         List<String> loops = new ArrayList<>();
         Set<String> uniqueLoops = new HashSet<>();
@@ -233,6 +235,7 @@ public class FollowGraph implements Serializable {
         for (int i = 0; i < users.size(); i++) {
             findLoopsDFS(i, i, new HashSet<>(), new ArrayList<>(), loops, uniqueLoops);
         }
+
         return loops;
     }
 
@@ -243,9 +246,10 @@ public class FollowGraph implements Serializable {
         for (int neighbor = 0; neighbor < users.size(); neighbor++) {
             if (connections[current][neighbor]) {
                 if (neighbor == start && path.size() > 2) {
-
-                    String loop = buildLoopString(path);
-                    if (uniqueLoops.add(loop)) {
+                    List<Integer> loopPath = new ArrayList<>(path);
+                    loopPath.add(start);
+                    String loop = buildLoopString(loopPath);
+                    if (uniqueLoops.add(normalizeLoop(loop))) {
                         loops.add(loop);
                     }
                 } else if (!visited.contains(neighbor)) {
@@ -264,10 +268,29 @@ public class FollowGraph implements Serializable {
             nodeNames.add(users.get(index).getUserName());
         }
 
-        Collections.sort(nodeNames);
-        nodeNames.add(nodeNames.get(0)); // Close the loop
         return String.join(" -> ", nodeNames);
     }
+
+    private String normalizeLoop(String loop) {
+        String[] parts = loop.split(" -> ");
+        int n = parts.length;
+        int minIndex = 0;
+
+        for (int i = 1; i < n; i++) {
+            if (parts[i].compareTo(parts[minIndex]) < 0) {
+                minIndex = i;
+            }
+        }
+
+        List<String> normalized = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            normalized.add(parts[(minIndex + i) % n]);
+        }
+
+        return String.join(" -> ", normalized);
+    }
+
+
 
     public void loadAllUsers(String filename) {
         File file = new File(filename);
