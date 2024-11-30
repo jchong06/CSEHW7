@@ -101,15 +101,51 @@ public class FollowGraphDriver {
                 }
             }
             if (option.equals("RU")){
-                System.out.print("\nPlease enter the user to remove: ");
+                System.out.print("Please enter the user to remove: ");
                 String u = input.nextLine();
+                while (graph.getUserByName(u) == null) {
+                    if (u.isEmpty()) {
+                        System.out.println("You can not leave this field empty. ");
+                        System.out.print("Please enter the user to remove: ");
+                        u = input.nextLine();
+                    }
+                    else if (graph.getUserByName(u) == null) {
+                        System.out.println("There is no user with this name, Please choose a valid user! ");
+                        System.out.print("Please enter the user to remove: ");
+                        u = input.nextLine();
+                    }
+                }
                 graph.removeUser(u);
             }
             if (option.equals("RC")){
-                System.out.print("\nPlease enter the source of the connection to remove: ");
+                System.out.print("Please enter the source of the connection to remove: ");
                 String f = input.nextLine();
+                while (graph.getUserByName(f) == null) {
+                    if (f.isEmpty()) {
+                        System.out.println("You can not leave this field empty. ");
+                        System.out.print("Please enter the source of the connection to remove: ");
+                        f = input.nextLine();
+                    }
+                    else if (graph.getUserByName(f) == null) {
+                        System.out.println("There is no user with this name, Please choose a valid user! ");
+                        System.out.print("Please enter the source of the connection to remove: ");
+                        f = input.nextLine();
+                    }
+                }
                 System.out.print("Please enter the dest of the connection to remove: ");
                 String t = input.nextLine();
+                while (graph.getUserByName(t) == null) {
+                    if (t.isEmpty()) {
+                        System.out.println("You can not leave this field empty. ");
+                        System.out.print("Please enter the dest of the connection to remove: ");
+                        t = input.nextLine();
+                    }
+                    else if (graph.getUserByName(t) == null) {
+                        System.out.println("There is no user with this name, Please choose a valid user! ");
+                        System.out.print("Please enter the dest of the connection to remove: ");
+                        t = input.nextLine();
+                    }
+                }
                 graph.removeConnection(f, t);
             }
             System.out.println(menu);

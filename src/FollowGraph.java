@@ -68,7 +68,7 @@ public class FollowGraph implements Serializable {
         }
     }
 
-    private User getUserByName(String userName) {
+    public User getUserByName(String userName) {
         for (User user : users) {
             if (user.getUserName().equals(userName)) {
                 return user;
