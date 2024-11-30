@@ -32,4 +32,8 @@ public class User implements Serializable {
         return userCount;
     }
 
+    public static void setUserCount(int c){
+        userCount = c;
+    }
+
 }

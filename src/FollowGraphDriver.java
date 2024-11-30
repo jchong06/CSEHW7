@@ -86,6 +86,9 @@ public class FollowGraphDriver {
                 if (loops.isEmpty()){
                     System.out.println("There are no loops.");
                 }
+                else if (loops.size() == 1){
+                    System.out.println("There is 1 loop:");
+                }
                 else{
                     System.out.print("There are a total of " + loops.size() + " loops: ");
                 }

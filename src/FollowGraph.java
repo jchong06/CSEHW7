@@ -15,6 +15,7 @@ public class FollowGraph implements Serializable {
     }
 
     public void addUser(String userName) {
+        User.setUserCount(users.size());
         for (User user : users) {
             if (user.getUserName().equals(userName)) {
                 return;
@@ -103,6 +104,13 @@ public class FollowGraph implements Serializable {
     }
 
     public void printAllUsers(Comparator<User> comp) {
+        for (int i = 0; i < users.size(); i++) {
+            for (int j = 0; j < users.size(); j++) {
+                if (connections[i][j]) {
+                    System.out.println(users.get(i).getUserName() + " -> " + users.get(j).getUserName());
+                }
+            }
+        }
         ArrayList<User> temp = new ArrayList<>(users);
         temp.sort(comp);
         String header = "User Name              " + "Number of Followers     " + "Number of Following";
