@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class FollowGraphDriver {
     public static void main(String[] args) throws FileNotFoundException {
-        FollowGraph graph = new FollowGraph();
+        FollowGraph graph = FollowGraph.loadGraph();
         Scanner input = new Scanner(System.in);
         String menu = "(U) Add User\n" +
                 "(C) Add Connection\n" +
@@ -129,5 +129,6 @@ public class FollowGraphDriver {
             System.out.print("Enter a selection: ");
             option = input.nextLine().toUpperCase();
         }
+        graph.saveGraph();
     }
 }

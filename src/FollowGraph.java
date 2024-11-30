@@ -1,7 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-public class FollowGraph {
+public class FollowGraph implements Serializable {
+    private static final long serialVersionUID = 1L;
     private ArrayList<User> users;
     public static final int MAX_USERS = 100;
     private boolean[][] connections;
@@ -350,6 +351,30 @@ public class FollowGraph {
                     graph.countFollowing(u2.getIndexPos()),
                     graph.countFollowing(u1.getIndexPos())
             );
+        }
+    }
+
+    public void saveGraph() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("FollowGraph.obj"))) {
+            oos.writeObject(this);
+            System.out.println("FollowGraph object saved into file FollowGraph.obj.");
+        } catch (IOException e) {
+            System.err.println("Error saving the graph: " + e.getMessage());
+        }
+    }
+
+    public static FollowGraph loadGraph() {
+        File file = new File("FollowGraph.obj");
+        if (!file.exists()) {
+            System.out.println("follow_graph.obj is not found. New FollowGraph object will be created.");
+            return new FollowGraph();
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            System.out.println("FollowGraph object loaded from file FollowGraph.obj.");
+            return (FollowGraph) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return new FollowGraph();
         }
     }
 
