@@ -87,7 +87,7 @@ public class FollowGraphDriver {
                     System.out.println("There are no loops.");
                 }
                 else{
-                    System.out.print("There is " + loops.size() + " loop: ");
+                    System.out.print("There are a total of " + loops.size() + " loop: ");
                 }
                 for (String l : loops){
                     System.out.println(l);

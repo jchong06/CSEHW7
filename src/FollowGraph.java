@@ -358,9 +358,16 @@ public class FollowGraph implements Serializable {
         }
 
         public int compare(User u1, User u2) {
-            return Integer.compare(
+            int followersComparison = Integer.compare(
                     graph.countFollowers(u2.getIndexPos()),
                     graph.countFollowers(u1.getIndexPos())
+            );
+
+            return (followersComparison != 0)
+                    ? followersComparison
+                    : Integer.compare(
+                    graph.countFollowing(u1.getIndexPos()),
+                    graph.countFollowing(u2.getIndexPos())
             );
         }
     }
@@ -373,12 +380,22 @@ public class FollowGraph implements Serializable {
         }
 
         public int compare(User u1, User u2) {
-            return Integer.compare(
+            int followingComparison = Integer.compare(
                     graph.countFollowing(u2.getIndexPos()),
                     graph.countFollowing(u1.getIndexPos())
             );
+
+            if (followingComparison != 0) {
+                return followingComparison;
+            }
+
+            return Integer.compare(
+                    graph.countFollowers(u2.getIndexPos()),
+                    graph.countFollowers(u1.getIndexPos())
+            );
         }
     }
+
 
     public void saveGraph() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("FollowGraph.obj"))) {
