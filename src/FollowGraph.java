@@ -221,7 +221,7 @@ public class FollowGraph {
         }
 
         visited.remove(current);
-        currentPath.removeLast();
+        currentPath.remove(currentPath.size() - 1);
     }
 
     public List<String> findAllLoops() {
