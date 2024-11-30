@@ -44,20 +44,28 @@ public class FollowGraphDriver {
                         "(Q) Quit // back to main menu\n");
                 System.out.print("Enter a selection: ");
                 String comp = input.nextLine().toUpperCase();
-                if (comp.equals("SA")){
-                    System.out.println("\nUsers:");
-                    graph.printAllUsers(new FollowGraph.NameComparator());
-                    System.out.println();
-                }
-                else if (comp.equals("SB")){
-                    System.out.println("\nUsers:");
-                    graph.printAllUsers(new FollowGraph.FollowersComparator(graph));
-                    System.out.println();
-                }
-                else if (comp.equals("SC")){
-                    System.out.println("\nUsers:");
-                    graph.printAllUsers(new FollowGraph.FollowingComparator(graph));
-                    System.out.println();
+                while (!comp.equals("Q")){
+                    if (comp.equals("SA")){
+                        System.out.println("\nUsers:");
+                        graph.printAllUsers(new FollowGraph.NameComparator());
+                        System.out.println();
+                    }
+                    else if (comp.equals("SB")){
+                        System.out.println("\nUsers:");
+                        graph.printAllUsers(new FollowGraph.FollowersComparator(graph));
+                        System.out.println();
+                    }
+                    else if (comp.equals("SC")){
+                        System.out.println("\nUsers:");
+                        graph.printAllUsers(new FollowGraph.FollowingComparator(graph));
+                        System.out.println();
+                    }
+                    System.out.println("\n(SA) Sort Users by Name\n" +
+                            "(SB) Sort Users by Number of Followers\n" +
+                            "(SC) Sort Users by Number of Following\n" +
+                            "(Q) Quit // back to main menu\n");
+                    System.out.print("Enter a selection: ");
+                    comp = input.nextLine().toUpperCase();
                 }
             }
             if (option.equals("U")){
