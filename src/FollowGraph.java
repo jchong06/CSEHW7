@@ -145,14 +145,21 @@ public class FollowGraph implements Serializable {
     public void printAllUsers(Comparator<User> comp) {
         users.sort(comp);
 
-        System.out.printf("%-20s %-25s %-20s\n", "User Name", "Number of Followers", "Number Following");
+        // Header row
+        String header = "User Name              " + "Number of Followers     " + "Number Following        ";
+        System.out.println(header);
         for (User user : users) {
-            System.out.printf("%-29s %-24d %-20d\n",
-                    user.getUserName(),
-                    countFollowers(user.getIndexPos()),
-                    countFollowing(user.getIndexPos()));
+            String userName = user.getUserName();
+            int followersCount = countFollowers(user.getIndexPos());
+            int followingCount = countFollowing(user.getIndexPos());
+            String userNamePadding = String.format("%-29s", userName);
+            String followersPadding = String.format("%-24d", followersCount);
+            String followingPadding = String.format("%-20d", followingCount);
+
+            System.out.println(userNamePadding + followersPadding + followingPadding);
         }
     }
+
 
     public void printAllFollowers(String userName) {
         User user = getUserByName(userName);
