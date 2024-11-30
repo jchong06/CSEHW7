@@ -103,10 +103,11 @@ public class FollowGraph implements Serializable {
     }
 
     public void printAllUsers(Comparator<User> comp) {
-        users.sort(comp);
+        ArrayList<User> temp = new ArrayList<>(users);
+        temp.sort(comp);
         String header = "User Name              " + "Number of Followers     " + "Number of Following";
         System.out.println(header);
-        for (User user : users) {
+        for (User user : temp) {
             String userName = user.getUserName();
             int followersCount = countFollowers(user.getIndexPos());
             int followingCount = countFollowing(user.getIndexPos());
