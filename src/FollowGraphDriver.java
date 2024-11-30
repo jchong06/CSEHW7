@@ -26,44 +26,37 @@ public class FollowGraphDriver {
             if (option.equals("AU")){
                 System.out.print("Enter the file name: ");
                 String file = input.nextLine();
-                System.out.println();
                 graph.loadAllUsers(file);
-                System.out.println();
             }
             if (option.equals("AC")){
                 System.out.print("Enter the file name: ");
                 String file = input.nextLine();
-                System.out.println();
                 graph.loadAllConnections(file);
-                System.out.println();
             }
             if (option.equals("P")){
-                System.out.println("\n(SA) Sort Users by Name\n" +
+                System.out.println("(SA) Sort Users by Name\n" +
                         "(SB) Sort Users by Number of Followers\n" +
                         "(SC) Sort Users by Number of Following\n" +
-                        "(Q) Quit // back to main menu\n");
+                        "(Q) Quit // back to main menu");
                 System.out.print("Enter a selection: ");
                 String comp = input.nextLine().toUpperCase();
                 while (!comp.equals("Q")){
                     if (comp.equals("SA")){
                         System.out.println("\nUsers:");
                         graph.printAllUsers(new FollowGraph.NameComparator());
-                        System.out.println();
                     }
                     else if (comp.equals("SB")){
                         System.out.println("\nUsers:");
                         graph.printAllUsers(new FollowGraph.FollowersComparator(graph));
-                        System.out.println();
                     }
                     else if (comp.equals("SC")){
                         System.out.println("\nUsers:");
                         graph.printAllUsers(new FollowGraph.FollowingComparator(graph));
-                        System.out.println();
                     }
-                    System.out.println("\n(SA) Sort Users by Name\n" +
+                    System.out.println("(SA) Sort Users by Name\n" +
                             "(SB) Sort Users by Number of Followers\n" +
                             "(SC) Sort Users by Number of Following\n" +
-                            "(Q) Quit // back to main menu\n");
+                            "(Q) Quit // back to main menu");
                     System.out.print("Enter a selection: ");
                     comp = input.nextLine().toUpperCase();
                 }
@@ -85,19 +78,15 @@ public class FollowGraphDriver {
                 String f = input.nextLine();
                 System.out.print("Please enter the desired destination: ");
                 String t = input.nextLine();
-                System.out.println();
                 System.out.println(graph.shortestPath(f, t));
-                System.out.println();
             }
             if (option.equals("L")){
                 List<String> loops = graph.findAllLoops();
                 Collections.sort(loops);
-                System.out.println();
                 System.out.print("There is " + loops.size() + " loop: ");
                 for (String l : loops){
                     System.out.println(l);
                 }
-                System.out.println();
             }
             if (option.equals("AP")){
                 System.out.print("\nPlease enter the desired source: ");
@@ -106,12 +95,10 @@ public class FollowGraphDriver {
                 String t = input.nextLine();
                 List<String> path = graph.allPaths(f, t);
                 Collections.sort(path);
-                System.out.println();
                 System.out.println("There are a total of " + path.size() + " paths: ");
                 for (String p : path){
                     System.out.println(p);
                 }
-                System.out.println();
             }
             if (option.equals("RU")){
                 System.out.print("\nPlease enter the user to remove: ");
