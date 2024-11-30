@@ -1,10 +1,9 @@
 import java.io.FileNotFoundException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class FollowGraphDriver {
     public static void main(String[] args) throws FileNotFoundException {
         FollowerGraph graph = new FollowerGraph();
         Scanner input = new Scanner(System.in);
