@@ -83,7 +83,12 @@ public class FollowGraphDriver {
             if (option.equals("L")){
                 List<String> loops = graph.findAllLoops();
                 Collections.sort(loops);
-                System.out.print("There is " + loops.size() + " loop: ");
+                if (loops.isEmpty()){
+                    System.out.print("There are no loops.");
+                }
+                else{
+                    System.out.print("There is " + loops.size() + " loop: ");
+                }
                 for (String l : loops){
                     System.out.println(l);
                 }
